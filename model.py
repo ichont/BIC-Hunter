@@ -82,7 +82,14 @@ class GCN(nn.Module):
         homogeneous_data = data.to_homogeneous()
 
         edge_index, edge_type = homogeneous_data.edge_index, homogeneous_data.edge_type
-        edge_weight = 4.0 * torch.ones(edge_index.shape[1], dtype=torch.float32, device=self.device)
+        # edge_weight = 4.0 * torch.ones(edge_index.shape[1], dtype=torch.float32, device=self.device)
+        a, b = 1.0, 7.0
+
+        edge_weight = torch.empty(
+        edge_index.shape[1],
+        dtype=torch.float32,
+        device=self.device
+        ).uniform_(a, b)
         x = self.conv1(homogeneous_data.x, edge_index, edge_weight)
         x = self.conv2(x, edge_index, edge_weight)
 
